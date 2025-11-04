@@ -1,5 +1,31 @@
-import { getApperClient } from "@/services/apperClient";
 import { toast } from "react-toastify";
+import React from "react";
+import { getApperClient } from "@/services/apperClient";
+import Error from "@/components/ui/Error";
+
+// Helper function to safely parse images JSON
+const safeParseImages = (imagesStr) => {
+  try {
+    if (!imagesStr) return [];
+    const parsed = JSON.parse(imagesStr);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn('Failed to parse images:', error);
+    return [];
+  }
+};
+
+// Helper function to safely parse JSON arrays
+const safeParseArray = (jsonStr) => {
+  try {
+    if (!jsonStr) return [];
+    const parsed = JSON.parse(jsonStr);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn('Failed to parse JSON array:', error);
+    return [];
+  }
+};
 
 export const productService = {
   async getAll(filters = {}) {
@@ -102,11 +128,11 @@ export const productService = {
       }
       
       // Transform data to match UI expectations
-      let products = response.data.map(product => ({
+let products = response.data.map(product => ({
         Id: product.Id,
         name: product.name_c,
         category: product.category_c,
-        colors: JSON.parse(product.colors_c || '[]'),
+        colors: safeParseArray(product.colors_c),
         createdAt: product.created_at_c,
         description: product.description_c,
         featured: product.featured_c,
@@ -114,8 +140,8 @@ export const productService = {
         price: product.price_c,
         rating: product.rating_c,
         stock: product.stock_c,
-        images: JSON.parse(product.images_c || '[]'),
-        sizes: JSON.parse(product.sizes_c || '[]'),
+        images: safeParseImages(product.images_c),
+        sizes: safeParseArray(product.sizes_c),
         reviews: [] // Will be populated from reviews service
       }))
       
@@ -166,12 +192,12 @@ export const productService = {
         throw new Error("Product not found")
       }
       
-      const product = response.data
+const product = response.data
       return {
         Id: product.Id,
         name: product.name_c,
         category: product.category_c,
-        colors: JSON.parse(product.colors_c || '[]'),
+        colors: safeParseArray(product.colors_c),
         createdAt: product.created_at_c,
         description: product.description_c,
         featured: product.featured_c,
@@ -179,8 +205,8 @@ export const productService = {
         price: product.price_c,
         rating: product.rating_c,
         stock: product.stock_c,
-        images: JSON.parse(product.images_c || '[]'),
-        sizes: JSON.parse(product.sizes_c || '[]'),
+        images: safeParseImages(product.images_c),
+        sizes: safeParseArray(product.sizes_c),
         reviews: []
       }
     } catch (error) {
@@ -225,11 +251,11 @@ export const productService = {
         return []
       }
       
-      return response.data.map(product => ({
+return response.data.map(product => ({
         Id: product.Id,
         name: product.name_c,
         category: product.category_c,
-        colors: JSON.parse(product.colors_c || '[]'),
+        colors: safeParseArray(product.colors_c),
         createdAt: product.created_at_c,
         description: product.description_c,
         featured: product.featured_c,
@@ -237,8 +263,8 @@ export const productService = {
         price: product.price_c,
         rating: product.rating_c,
         stock: product.stock_c,
-        images: JSON.parse(product.images_c || '[]'),
-        sizes: JSON.parse(product.sizes_c || '[]'),
+        images: safeParseImages(product.images_c),
+        sizes: safeParseArray(product.sizes_c),
         reviews: []
       }))
     } catch (error) {
@@ -279,11 +305,11 @@ export const productService = {
         return []
       }
       
-      return response.data.map(product => ({
+return response.data.map(product => ({
         Id: product.Id,
         name: product.name_c,
         category: product.category_c,
-        colors: JSON.parse(product.colors_c || '[]'),
+        colors: safeParseArray(product.colors_c),
         createdAt: product.created_at_c,
         description: product.description_c,
         featured: product.featured_c,
@@ -291,8 +317,8 @@ export const productService = {
         price: product.price_c,
         rating: product.rating_c,
         stock: product.stock_c,
-        images: JSON.parse(product.images_c || '[]'),
-        sizes: JSON.parse(product.sizes_c || '[]'),
+        images: safeParseImages(product.images_c),
+        sizes: safeParseArray(product.sizes_c),
         reviews: []
       }))
     } catch (error) {
@@ -342,11 +368,11 @@ export const productService = {
       return response.data
         .filter(product => product.Id !== parseInt(productId))
         .slice(0, limit)
-        .map(product => ({
+.map(product => ({
           Id: product.Id,
           name: product.name_c,
           category: product.category_c,
-          colors: JSON.parse(product.colors_c || '[]'),
+          colors: safeParseArray(product.colors_c),
           createdAt: product.created_at_c,
           description: product.description_c,
           featured: product.featured_c,
@@ -354,8 +380,8 @@ export const productService = {
           price: product.price_c,
           rating: product.rating_c,
           stock: product.stock_c,
-          images: JSON.parse(product.images_c || '[]'),
-          sizes: JSON.parse(product.sizes_c || '[]'),
+          images: safeParseImages(product.images_c),
+          sizes: safeParseArray(product.sizes_c),
           reviews: []
         }))
     } catch (error) {
