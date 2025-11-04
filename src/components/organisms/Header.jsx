@@ -232,27 +232,26 @@ const UserMenu = () => {
         </span>
       </button>
 
-      <AnimatePresence>
+<AnimatePresence>
         {showMenu && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+            className="absolute right-0 top-full mt-2 w-48 bg-surface rounded-lg shadow-lg border border-secondary py-2 z-50"
           >
-            <div className="px-4 py-2 border-b border-gray-100">
-              <p className="text-sm font-medium text-gray-900">
+            <div className="px-4 py-2 border-b border-secondary">
+              <p className="text-sm font-medium text-primary">
                 {user?.firstName || user?.name || 'User'}
               </p>
-              <p className="text-xs text-gray-500">{user?.emailAddress || user?.email}</p>
+              <p className="text-xs text-muted">{user?.emailAddress || user?.email}</p>
             </div>
             <Link 
               to="/orders" 
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              className="block px-4 py-2 text-primary hover:bg-secondary rounded-md transition-colors flex items-center gap-2"
               onClick={() => setShowMenu(false)}
             >
-              <ApperIcon name="Package" className="w-4 h-4 mr-2 inline" />
+              <ApperIcon name="Package" size={16} />
               Order History
             </Link>
             <button
@@ -260,7 +259,7 @@ className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg bor
                 setShowMenu(false)
                 logout()
               }}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+              className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-secondary flex items-center gap-2"
             >
               <ApperIcon name="LogOut" size={16} />
               Sign out
