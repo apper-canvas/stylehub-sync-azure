@@ -8,8 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-display font-bold">
-              Style<span className="text-accent">Hub</span>
+<h3 className="text-2xl font-display font-bold">
+              Fashion<span className="text-accent">Hub</span>
             </h3>
             <p className="text-gray-300 text-sm">
               Curated fashion for the modern lifestyle. Discover your style with our premium collection.
@@ -114,8 +114,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm">
-            © 2024 StyleHub. All rights reserved.
+<p className="text-gray-300 text-sm">
+            © 2024 FashionHub. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-300 hover:text-accent transition-colors text-sm">

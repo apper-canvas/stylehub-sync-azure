@@ -26,8 +26,8 @@ const MobileMenu = ({ isOpen, onClose, categories }) => {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-secondary">
-              <h2 className="text-xl font-display font-bold text-primary">
-                Style<span className="text-accent">Hub</span>
+<h2 className="text-xl font-display font-bold text-primary">
+                Fashion<span className="text-accent">Hub</span>
               </h2>
               <button
                 onClick={onClose}

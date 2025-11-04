@@ -50,8 +50,8 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <h1 className="text-2xl font-display font-bold text-primary">
-              Style<span className="text-accent">Hub</span>
+<h1 className="text-2xl font-display font-bold text-primary">
+              Fashion<span className="text-accent">Hub</span>
             </h1>
           </Link>
 
