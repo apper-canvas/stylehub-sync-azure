@@ -1,4 +1,30 @@
 {
+  "/orders": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view order history",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/orders/*": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to track orders", 
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
   "/": {
     "allow": {
       "when": {

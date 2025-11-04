@@ -1,11 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
-import { getRouteConfig } from "@/router/route.utils";
+import { ToastContainer } from "react-toastify";
+import PromptPassword from "@/pages/PromptPassword";
+import Callback from "@/pages/Callback";
+import ErrorPage from "@/pages/ErrorPage";
+import Signup from "@/pages/Signup";
+import Login from "@/pages/Login";
+import ResetPassword from "@/pages/ResetPassword";
 import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
-import { ToastContainer } from "react-toastify";
+import { getRouteConfig } from "@/router/route.utils";
 
-// Lazy load components
+// Lazy load components for better performance
 const Home = lazy(() => import("@/components/pages/Home"));
 const Shop = lazy(() => import("@/components/pages/Shop"));
 const ProductDetail = lazy(() => import("@/components/pages/ProductDetail"));
@@ -15,12 +21,10 @@ const Checkout = lazy(() => import("@/components/pages/Checkout"));
 const OrderConfirmation = lazy(() => import("@/components/pages/OrderConfirmation"));
 const Reviews = lazy(() => import("@/components/pages/Reviews"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
-const Login = lazy(() => import("@/pages/Login"));
-const Signup = lazy(() => import("@/pages/Signup"));
-const Callback = lazy(() => import("@/pages/Callback"));
-const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
-const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
-const PromptPassword = lazy(() => import("@/pages/PromptPassword"));
+
+// Order Pages
+const OrderHistory = lazy(() => import("@/components/pages/OrderHistory"));
+const OrderTracking = lazy(() => import("@/components/pages/OrderTracking"));
 
 const createRoute = ({
   path,
@@ -120,6 +124,39 @@ const mainRoutes = [
     path: "*",
     element: <NotFound />,
   }),
+createRoute({
+    path: "orders",
+    children: [
+      createRoute({
+        index: true,
+        element: <OrderHistory />,
+        access: {
+          when: {
+            conditions: [
+              {
+                label: "User must be logged in to view order history",
+                rule: "authenticated"
+              }
+            ]
+          }
+        }
+      }),
+      createRoute({
+        path: ":id",
+        element: <OrderTracking />,
+        access: {
+          when: {
+            conditions: [
+              {
+                label: "User must be logged in to track orders",
+                rule: "authenticated"
+              }
+            ]
+          }
+        }
+      })
+    ]
+  })
 ];
 
 // Define routes
