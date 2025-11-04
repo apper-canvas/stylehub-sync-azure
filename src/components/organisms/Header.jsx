@@ -1,13 +1,15 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import { motion, AnimatePresence } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
-import { selectCartItemsCount, toggleCart } from "@/store/slices/cartSlice"
-import { selectWishlistItemsCount } from "@/store/slices/wishlistSlice"
-import SearchBar from "@/components/molecules/SearchBar"
-import MobileMenu from "@/components/molecules/MobileMenu"
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
+import { useAuth } from "@/layouts/Root";
+import ApperIcon from "@/components/ApperIcon";
+import Shop from "@/components/pages/Shop";
+import Home from "@/components/pages/Home";
+import MobileMenu from "@/components/molecules/MobileMenu";
+import SearchBar from "@/components/molecules/SearchBar";
+import { selectCartItemsCount, toggleCart } from "@/store/slices/cartSlice";
+import { selectWishlistItemsCount } from "@/store/slices/wishlistSlice";
 const Header = () => {
 const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -152,9 +154,12 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
                   {cartItemsCount}
                 </motion.span>
               )}
-            </button>
+</button>
+
+            {/* User Menu / Logout */}
+            <UserMenu />
           </div>
-        </div>
+</div>
       </div>
 
       {/* Mobile Menu */}
@@ -195,6 +200,66 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
         )}
       </AnimatePresence>
     </header>
+  )
+}
+
+// User Menu Component
+const UserMenu = () => {
+  const { user, isAuthenticated } = useSelector((state) => state.user)
+  const { logout } = useAuth()
+  const [showMenu, setShowMenu] = useState(false)
+
+  if (!isAuthenticated) {
+    return (
+      <Link
+        to="/login"
+        className="p-2 rounded-md text-primary hover:bg-secondary transition-colors"
+      >
+        <ApperIcon name="User" size={20} />
+      </Link>
+    )
+  }
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="p-2 rounded-md text-primary hover:bg-secondary transition-colors flex items-center gap-2"
+      >
+        <ApperIcon name="User" size={20} />
+        <span className="hidden md:inline text-sm">
+          {user?.firstName || user?.name || 'User'}
+        </span>
+      </button>
+
+      <AnimatePresence>
+        {showMenu && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+          >
+            <div className="px-4 py-2 border-b border-gray-100">
+              <p className="text-sm font-medium text-gray-900">
+                {user?.firstName || user?.name || 'User'}
+              </p>
+              <p className="text-xs text-gray-500">{user?.emailAddress || user?.email}</p>
+            </div>
+            <button
+              onClick={() => {
+                setShowMenu(false)
+                logout()
+              }}
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+            >
+              <ApperIcon name="LogOut" size={16} />
+              Sign out
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 
